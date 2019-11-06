@@ -1,0 +1,5 @@
+;; WARNING
+;; The test-config.edn file is used for local environment variables, such as database credentials.
+
+{:port 3000
+ }
