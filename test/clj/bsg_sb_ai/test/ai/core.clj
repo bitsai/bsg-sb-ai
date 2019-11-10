@@ -10,7 +10,7 @@
                          :kinetic-energy 2
                          :speed :medium}]
             :kinetic-energy 2}
-           (ai/get-maneuvers raider/maneuver-cards 1 {:side :right :idx 6}))))
+           (ai/get-maneuvers raider/maneuver-cards 1 {:side :right :index 6}))))
 
   (testing "maneuvers should not exceed maximum G"
     (is (= {:maneuvers [{:card-number 20
@@ -21,15 +21,4 @@
                          :kinetic-energy 3
                          :speed :high}]
             :kinetic-energy 6}
-           (ai/get-maneuvers raider/maneuver-cards 21 {:side :right :idx 3}))))
-
-  (testing "overboost card index should not be out-of-bounds"
-    (is (= {:maneuvers [{:card-number 20
-                         :g 3
-                         :kinetic-energy 3}
-                        {:card-number 5
-                         :g 1
-                         :kinetic-energy 3
-                         :speed :high}]
-            :kinetic-energy 6}
-           (ai/get-maneuvers raider/maneuver-cards 21 {:side :right :idx 6})))))
+           (ai/get-maneuvers raider/maneuver-cards 24 {:side :right :index 6})))))

@@ -10,8 +10,8 @@
     :else          [:overboost :high]))
 
 (defn get-normal-maneuver
-  ([cards {:keys [side idx]} speed]
-   (let [{:keys [kinetic-energy] :as c} (get-in cards [:maneuver side idx])
+  ([cards {:keys [side index]} speed]
+   (let [{:keys [kinetic-energy] :as c} (get-in cards [:maneuver side index])
          ;; cards with no low speed maneuver should default to medium speed
          speed (if (get kinetic-energy speed)
                  speed
@@ -24,12 +24,12 @@
      ;; maneuvers should not exceed maximum G
      (if (-> m :g (<= max-g))
        m
-       (recur cards (update vector* :idx dec) speed max-g)))))
+       (recur cards (update vector* :index dec) speed max-g)))))
 
-(defn get-overboost-maneuver [cards {:keys [side idx]}]
+(defn get-overboost-maneuver [cards {:keys [side index]}]
   (let [;; overboost card index should not be out-of-bounds
-        idx (min idx (-> cards :overboost side count dec))]
-    (get-in cards [:overboost side idx])))
+        index (min index (-> cards :overboost side count dec))]
+    (get-in cards [:overboost side index])))
 
 (defn get-maneuver [cards vector* speed max-g]
   (if (= speed :overboost)
