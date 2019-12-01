@@ -11,8 +11,8 @@
                        :kinetic-energy {:high 3
                                         :medium 2
                                         :low 1}}
-                      {:card-number 4
-                       :g 1
+                      {:card-number 6
+                       :g 2
                        :kinetic-energy {:high 3
                                         :medium 2
                                         :low 1}}
@@ -45,8 +45,8 @@
                        :kinetic-energy {:high 3
                                         :medium 2
                                         :low 1}}
-                      {:card-number 5
-                       :g 1
+                      {:card-number 7
+                       :g 2
                        :kinetic-energy {:high 3
                                         :medium 2
                                         :low 1}}
