@@ -2,6 +2,8 @@
   <head>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="ai.js"></script>
+    <script src="ships.js"></script>
     <script type="text/javascript">
       // Load the Visualization API and the piechart package.
       google.charts.load('current', {'packages':['corechart']});
@@ -48,8 +50,10 @@
         function selectHandler() {
           var selectedItem = chart.getSelection()[0];
           if (selectedItem) {
-            var facing = data.getValue(selectedItem.row, 0);
-            document.getElementById('maneuvers_div').innerHTML = facing + ' selected';
+            var vector = getVector(data.getValue(selectedItem.row, 0));
+            document.getElementById('maneuvers_15_div').innerHTML = JSON.stringify(getManeuver(raider, vector.side, vector.index, 'high'));
+            document.getElementById('maneuvers_10_div').innerHTML = JSON.stringify(getManeuver(raider, vector.side, vector.index, 'medium'));
+            document.getElementById('maneuvers_0_div').innerHTML = JSON.stringify(getManeuver(raider, vector.side, vector.index, 'low'));
           }
         }
 
@@ -62,6 +66,16 @@
     <h1>Battlestar Galactica Starship Battles AI</h1>
     <!--Div that will hold the pie chart-->
     <div id="chart_div"></div>
-    <div id="maneuvers_div"></div>
+    <b>Target > 20 cm</b>
+    <div id="maneuvers_20_div"></div>
+    <br/>
+    <b>Target > 15 cm</b>
+    <div id="maneuvers_15_div"></div>
+    <br/>
+    <b>Target > 10 cm</b>
+    <div id="maneuvers_10_div"></div>
+    <br/>
+    <b>Target >= 0 cm</b>
+    <div id="maneuvers_0_div"></div>
   </body>
 </html>
