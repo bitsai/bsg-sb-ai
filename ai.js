@@ -22,9 +22,9 @@ function getManeuver(ship, side, index, speed, allowedG) {
   var maneuvers = ship['maneuver'][side];
   var maneuver = maneuvers[Math.min(index, maneuvers.length - 1)];
 
-  if (allowedG && maneuver.g > allowedG) {
-    // if maneuver G value is too high, try next maneuver with lower G
-    return getManeuver(ship, side, index - 1, speed, allowedG);
+  if (allowedG && maneuver.g < allowedG) {
+    // if maneuver G value is too low, try next maneuver with higher G
+    return getManeuver(ship, side, index + 1, speed, allowedG);
   } else {
     // default to medium speed if maneuver doesn't contain specified speed
     var speed = maneuver.kineticEnergy[speed] ? speed : 'medium';
@@ -38,7 +38,7 @@ function getManeuver(ship, side, index, speed, allowedG) {
 function getOverboostManeuver(ship, side, index, speed) {
   var overboosts = ship['overboost'][side];
   var overboost = overboosts[Math.min(index, overboosts.length - 1)];
-  var maneuver = getManeuver(ship, side, index, speed, maxG - overboost.g);
+  var maneuver = getManeuver(ship, side, 0, speed, maxG - overboost.g);
 
   return {'cardNumber1': overboost.cardNumber,
           'cardNumber2': maneuver.cardNumber,
