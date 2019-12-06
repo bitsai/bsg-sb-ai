@@ -1,4 +1,4 @@
-# Battlestar Galactica Starship Battles AI
+# bsg-sb-ai
 
 Based on Adam Kuzick's Cylon Raider Solo AI: https://boardgamegeek.com/filepage/173963/cylon-raider-solo-ai-basic
 
