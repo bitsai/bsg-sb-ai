@@ -1,22 +1,50 @@
 <html>
   <head>
-    <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="ai.js"></script>
-    <script src="ships.js"></script>
+    <script type="text/javascript" src="ai.js"></script>
+    <script type="text/javascript" src="ships.js"></script>
     <script type="text/javascript">
-      // Load the Visualization API and the piechart package.
       google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawChart);
 
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
+      var chart;
+      var data;
+      var options = {'title': 'Select Target Location',
+                     'width': 550,
+                     'height': 400,
+                     'legend': 'none',
+                     'pieSliceText': 'label',
+                     'pieStartAngle': -15,
+                     'tooltip': {'trigger': 'none'},
+                     'colors': ['red']};
+
+      function getShip() {
+        if (document.getElementById('ship').value == 'raider') {
+          return raider;
+        } else if (document.getElementById('ship').value == 'h_raider') {
+          return heavyRaider;
+        } else {
+          return raider;
+        }
+      }
+
+      function selectHandler() {
+        var selectedItem = chart.getSelection()[0];
+
+        if (selectedItem) {
+          var ship = getShip();
+          var vector = getVector(data.getValue(selectedItem.row, 0));
+
+          document.getElementById('distant_maneuver_div').innerHTML = JSON.stringify(getOverboostManeuver(ship, vector.side, vector.index, 'high'));
+          document.getElementById('far_maneuver_div').innerHTML = JSON.stringify(getManeuver(ship, vector.side, vector.index, 'high'));
+          document.getElementById('near_maneuver_div').innerHTML = JSON.stringify(getManeuver(ship, vector.side, vector.index, 'medium'));
+          document.getElementById('close_maneuver_div').innerHTML = JSON.stringify(getManeuver(ship, vector.side, vector.index, 'low'));
+        }
+      }
+
       function drawChart() {
-        // Create the data table.
-        var data = new google.visualization.DataTable();
+        chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Facing');
         data.addColumn('number', 'Width');
@@ -35,51 +63,37 @@
           ['11',1]
         ]);
 
-        // Set chart options.
-        var options = {'title': 'Raider',
-                       'width': 550,
-                       'height': 400,
-                       'legend': 'none',
-                       'pieSliceText': 'label',
-                       'pieStartAngle': -15,
-                       'tooltip': {'trigger': 'none'},
-                       'colors': ['red']};
- 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-
-        function selectHandler() {
-          var selectedItem = chart.getSelection()[0];
-
-          if (selectedItem) {
-            var vector = getVector(data.getValue(selectedItem.row, 0));
-
-            document.getElementById('maneuvers_20_div').innerHTML = JSON.stringify(getOverboostManeuver(raider, vector.side, vector.index, 'high'));
-            document.getElementById('maneuvers_15_div').innerHTML = JSON.stringify(getManeuver(raider, vector.side, vector.index, 'high'));
-            document.getElementById('maneuvers_10_div').innerHTML = JSON.stringify(getManeuver(raider, vector.side, vector.index, 'medium'));
-            document.getElementById('maneuvers_0_div').innerHTML = JSON.stringify(getManeuver(raider, vector.side, vector.index, 'low'));
-          }
-        }
-
-        google.visualization.events.addListener(chart, 'select', selectHandler);    
+        google.visualization.events.addListener(chart, 'select', selectHandler);
         chart.draw(data, options);
+      }
+
+      function clearManeuvers() {
+        chart.clearChart();
+        drawChart();
+        document.getElementById('distant_maneuver_div').innerHTML = '';
+        document.getElementById('far_maneuver_div').innerHTML = '';
+        document.getElementById('near_maneuver_div').innerHTML = '';
+        document.getElementById('close_maneuver_div').innerHTML = '';
       }
     </script>
   </head>
   <body>
     <h1>Battlestar Galactica Starship Battles AI</h1>
-    <!--Div that will hold the pie chart-->
+    <select id="ship" onChange="clearManeuvers();">
+      <option value="raider">Cylon Raider</option>
+      <option value="h_raider">Cylon Heavy Raider</option>
+    </select>
     <div id="chart_div"></div>
     <b>Target > 20 cm</b>
-    <div id="maneuvers_20_div"></div>
+    <div id="distant_maneuver_div"></div>
     <br/>
     <b>Target > 15 cm</b>
-    <div id="maneuvers_15_div"></div>
+    <div id="far_maneuver_div"></div>
     <br/>
     <b>Target > 10 cm</b>
-    <div id="maneuvers_10_div"></div>
+    <div id="near_maneuver_div"></div>
     <br/>
     <b>Target >= 0 cm</b>
-    <div id="maneuvers_0_div"></div>
+    <div id="close_maneuver_div"></div>
   </body>
 </html>
