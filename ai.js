@@ -29,7 +29,7 @@ function getManeuver(ship, side, index, speed, allowedG) {
     // default to medium speed if maneuver doesn't contain specified speed
     var speed = maneuver.kineticEnergy[speed] ? speed : 'medium';
 
-    return {'card': maneuver.card,
+    return {'cards': [maneuver.card],
             'speed': speed,
             'kineticEnergy': maneuver.kineticEnergy[speed]};
   }
@@ -40,8 +40,7 @@ function getOverboostManeuver(ship, side, index, speed) {
   var overboost = overboosts[Math.min(index, overboosts.length - 1)];
   var maneuver = getManeuver(ship, side, index, speed, maxG - overboost.g);
 
-  return {'card1': overboost.card,
-          'card2': maneuver.card,
+  return {'cards': [overboost.card].concat(maneuver.cards),
           'speed': maneuver.speed,
           'kineticEnergy': overboost.kineticEnergy + maneuver.kineticEnergy};
 }

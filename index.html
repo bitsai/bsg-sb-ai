@@ -28,6 +28,10 @@
         }
       }
 
+      function formatManeuver(maneuver) {
+        return 'CARDS: ' + maneuver.cards + ' SPEED: ' + maneuver.speed + ' KE: ' + maneuver.kineticEnergy;
+      }
+
       function selectHandler() {
         var selectedItem = chart.getSelection()[0];
 
@@ -35,10 +39,10 @@
           var ship = getShip();
           var vector = getVector(data.getValue(selectedItem.row, 0));
 
-          document.getElementById('distant_maneuver_div').innerHTML = JSON.stringify(getOverboostManeuver(ship, vector.side, vector.index, 'high'));
-          document.getElementById('far_maneuver_div').innerHTML = JSON.stringify(getManeuver(ship, vector.side, vector.index, 'high'));
-          document.getElementById('near_maneuver_div').innerHTML = JSON.stringify(getManeuver(ship, vector.side, vector.index, 'medium'));
-          document.getElementById('close_maneuver_div').innerHTML = JSON.stringify(getManeuver(ship, vector.side, vector.index, 'low'));
+          document.getElementById('distant_maneuver_div').innerHTML = formatManeuver(getOverboostManeuver(ship, vector.side, vector.index, 'high'));
+          document.getElementById('far_maneuver_div').innerHTML = formatManeuver(getManeuver(ship, vector.side, vector.index, 'high'));
+          document.getElementById('near_maneuver_div').innerHTML = formatManeuver(getManeuver(ship, vector.side, vector.index, 'medium'));
+          document.getElementById('close_maneuver_div').innerHTML = formatManeuver(getManeuver(ship, vector.side, vector.index, 'low'));
         }
       }
 
@@ -78,7 +82,7 @@
     </script>
   </head>
   <body>
-    <h1>Battlestar Galactica Starship Battles AI</h1>
+    <h1>BSG Starship Battles AI</h1>
     <select id="ship" onChange="clearManeuvers();">
       <option value="raider">Cylon Raider</option>
       <option value="h_raider">Cylon Heavy Raider</option>
