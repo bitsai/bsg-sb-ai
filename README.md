@@ -1,24 +1,9 @@
-# bsg-sb-ai
+# Battlestar Galactica Starship Battles AI
 
-generated using Luminus version "3.48"
+Based on Adam Kuzick's Cylon Raider Solo AI: https://boardgamegeek.com/filepage/173963/cylon-raider-solo-ai-basic
 
-FIXME
-
-## Prerequisites
-
-You will need [Leiningen][1] 2.0 or above and [Node.js][2] installed.
-
-[1]: https://github.com/technomancy/leiningen
-
-[2]: https://nodejs.org/
-
-## Running
-
-To start a web server for the application, run:
-
-    lein shadow watch app
-    lein run 
+Available at: https://bsg-sb-ai.herokuapp.com/
 
 ## License
 
-Copyright © 2019 FIXME
+Copyright © 2019 Benny Tsai
